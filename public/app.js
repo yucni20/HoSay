@@ -778,7 +778,7 @@ function renderSettings() {
         <select class="input" data-set="repeat_minutes" aria-label="再提醒間隔">${[5, 10, 15, 30, 60].map((n) => `<option value="${n}" ${st.repeat_minutes === n ? 'selected' : ''}>${n} 分鐘</option>`).join('')}</select></div>
       <label class="set-row"><div><div class="t">通知中隱藏項目名稱</div><div class="d">鎖定畫面不顯示藥名，保護隱私</div></div><input type="checkbox" class="switch" data-set="hide_names" ${st.hide_names ? 'checked' : ''}></label>
       <div class="set-row"><div><div class="t">時區</div><div class="d">提醒時間依這個時區計算</div></div>
-        <select class="input" data-set="timezone" aria-label="時區" style="max-width:52%">${zones.map((z) => `<option ${z === st.timezone ? 'selected' : ''}>${esc(z)}</option>`).join('')}</select></div>
+        <select class="input wide" data-set="timezone" aria-label="時區">${zones.map((z) => `<option ${z === st.timezone ? 'selected' : ''}>${esc(z)}</option>`).join('')}</select></div>
       <div class="set-row"><div><div class="t">iPhone 設定教學</div><div class="d">加入主畫面與開啟通知</div></div><button class="btn btn-soft" data-a="ios">查看</button></div>
       <div class="set-row"><div><div class="t">匯入手機行事曆</div><div class="d">無法使用推播時的替代方式</div></div><a class="btn btn-soft" href="/api/reminders.ics" download>下載</a></div>
     </div></section>

@@ -190,7 +190,8 @@ textarea.input { min-height: 72px; resize: vertical; }
 .set-row:last-child { border-bottom: 0; }
 .set-row .t { font-size: 15px; }
 .set-row .d { font-size: 13px; color: var(--ink-2); }
-.set-row select.input { width: auto; min-height: 40px; padding: 6px 10px; }
+.set-row select.input { width: 132px; flex: none; min-height: 40px; padding: 6px 10px; }
+.set-row select.input.wide { width: auto; max-width: 52%; }
 .set-row.stack { flex-direction: column; align-items: stretch; }
 .diag { list-style: none; padding: 0; margin: 4px 0 6px; font-size: 14px; }
 .diag li { display: flex; gap: 8px; align-items: flex-start; padding: 5px 0; }
