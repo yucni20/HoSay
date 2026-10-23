@@ -1,0 +1,12 @@
+{
+  "name": "chile-ma-health-checkin",
+  "version": "1.0.0",
+  "description": "今天吃了嗎？— 保健食品／藥物提醒打卡 PWA（零外部相依）",
+  "main": "server.js",
+  "private": true,
+  "engines": { "node": ">=22.13" },
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server.js",
+    "test": "node --disable-warning=ExperimentalWarning --test test/*.test.js"
+  }
+}

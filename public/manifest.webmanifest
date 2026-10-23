@@ -1,0 +1,19 @@
+{
+  "name": "今天吃了嗎？",
+  "short_name": "今天吃了嗎",
+  "description": "溫柔提醒你吃保健食品與藥物的打卡小幫手",
+  "lang": "zh-Hant-TW",
+  "start_url": "/#/today",
+  "scope": "/",
+  "id": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#FBF8F1",
+  "theme_color": "#FBF8F1",
+  "categories": ["health", "lifestyle"],
+  "icons": [
+    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "/icons/maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
