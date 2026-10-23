@@ -28,4 +28,24 @@ const html = `<title>今天吃了嗎？</title>
 <script>${fs.readFileSync(path.join(__dirname, 'mock.js'), 'utf8')}</script>
 <script>${app}</script>
 `;
-process.stdout.write(html);
+// --standalone：可直接放到任何網站（例如 GitHub Pages）的完整網頁
+if (process.argv.includes('--standalone')) {
+  const icon = fs.readFileSync(path.join(__dirname, '..', 'public', 'icons', 'apple-touch-icon.png')).toString('base64');
+  process.stdout.write(`<!doctype html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#4F6B4C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="今天吃了嗎">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="apple-touch-icon" href="data:image/png;base64,${icon}">
+<link rel="icon" href="data:image/png;base64,${icon}">
+${html.replace('<div class="preview-bar"', '</head>\n<body>\n<div class="preview-bar"')}</body>
+</html>
+`);
+} else {
+  process.stdout.write(html);
+}
