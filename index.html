@@ -618,7 +618,7 @@ function healthLine(h){const a=[];if(h.sleep)a.push("睡 "+h.sleep+" 小時");if
 
 function screenFood(){
   const d=selDate,t=targets(d),x=dayData(d);
-  const slots=["早餐","午餐","晚餐","點心"];
+  const slots=SLOTS;
   const isToday=d===today();
   const mb=(v,tg)=>Math.round(clamp(tg?v/tg:0,0,1)*100);
   const cT=r5((t.kcal*0.45)/4),fT=r5((t.kcal*0.25)/9);
@@ -638,7 +638,8 @@ function screenFood(){
    :`<section class="card empty">${ART.meal}<h2 class="h2">${isToday?"今天還沒有飲食紀錄":"這天沒有飲食紀錄"}</h2><p class="cap" style="margin:0">記下第一餐，熱量和蛋白質會自動計算。</p><button class="btn" data-act="sheet" data-arg="meal">記錄${isToday?guessSlot():"一餐"}</button></section>`}
   </div>`;
 }
-function guessSlot(){const h=new Date().getHours();return h<10?"早餐":h<14?"午餐":h<17?"點心":h<21?"晚餐":"點心"}
+const SLOTS=["早餐","午餐","點心","晚餐","宵夜"];
+function guessSlot(){const h=new Date().getHours();return h<4?"宵夜":h<10?"早餐":h<14?"午餐":h<17?"點心":h<21?"晚餐":"宵夜"}
 
 function screenMove(){
   const D=selDate,isT=D===today(),t=targets(D),x=dayData(D),pw=plannedWorkout(t.day),yl=workoutLink(t.day);
@@ -782,6 +783,7 @@ function screenReport(){
   H.push(`${n} 天中有 ${R.logged} 天有紀錄，${R.full} 天飲食、活動、喝水全部達標。`);
   const rates=[["蛋白質",R.protHit],["喝水",R.waterHit],["活動",R.actDays]].sort((a,b)=>a[1]-b[1]);
   if(rates[0][1]/n<0.7)H.push(`下一輪最值得加強的是${rates[0][0]}，這 ${n} 天達標 ${rates[0][1]} 天。`);
+  {const late=R.days.filter(d=>S.meals.some(m=>m.date===d&&m.slot==="宵夜")).length;if(late)H.push(`${n} 天中有 ${late} 天吃了宵夜。${late/n>0.3?"宵夜容易讓熱量超標，可以把晚餐的蛋白質吃足，減少晚上嘴饞。":""}`)}
   if(R.suppDays){const top=R.prod[0];const tm=Object.entries(top.tm).sort((a,b)=>b[1]-a[1])[0][0];H.push(`保健品有 ${R.suppDays} 天有紀錄，最常吃的是${top.name}，多半在${tm}。`)}
   const ibRows=ib0?[["體重","weight","kg",1,"down"],["體脂率","pbf","%",1,"down"],["骨骼肌重","smm","kg",1,"up"],["體脂肪重","bfm","kg",1,"down"],["內臟脂肪等級","vfl","",0,"down"],["基礎代謝","bmr","kcal",0,"up"],["InBody 分數","score","分",0,"up"]].map(([l,k,u,dd,dir])=>cmpRow(l,ib0[k],ib1?ib1[k]:null,u,dd,dir)).join(""):"";
   const msRows=m0?MS.map(([k,l])=>cmpRow(l,m0[k],m1?m1[k]:null,"cm",1,"down")).join("")+cmpRow("腰臀比",m0.waist&&m0.hip?m0.waist/m0.hip:null,m1&&m1.waist&&m1.hip?m1.waist/m1.hip:null,"",2,"down"):"";
@@ -893,7 +895,7 @@ function sheetMeal(slot){
   const recent=[];const seen=new Set();S.meals.slice().reverse().forEach(m=>{if(!seen.has(m.name)&&recent.length<8){seen.add(m.name);recent.push(m)}});
   const cats=["常用",...FOOD_CATS].concat(S.foods.length?["我的食物"]:[]);
   openSheet(`${shHead("記錄飲食",true)}<form class="form" data-form="meal" novalidate>
-   <div class="seg" id="slotSeg">${["早餐","午餐","晚餐","點心"].map(s=>`<button type="button" class="${s===slot?"on":""}" data-act="slot" data-arg="${s}">${s}</button>`).join("")}</div>
+   <div class="seg" id="slotSeg">${SLOTS.map(s=>`<button type="button" class="${s===slot?"on":""}" data-act="slot" data-arg="${s}">${s}</button>`).join("")}</div>
    ${recent.length?`<div><div class="cap" style="margin-bottom:8px">最近吃過，點一下就加入</div><div class="chips">${recent.map(m=>`<button type="button" class="chip" data-act="quickMeal" data-arg="${esc(m.name)}">${esc(m.name)}${m.kcal?` <span class="num muted">${m.kcal}</span>`:""}</button>`).join("")}</div></div>`:""}
    <div class="f"><label for="fq">搜尋食物</label><input id="fq" type="search" placeholder="例如：鐵板麵、壽司、茶碗蒸、珍奶、牛排" autocomplete="off"></div>
    <div class="cats" id="fcats">${cats.map(c=>`<button type="button" class="chip sm ${c==="常用"?"on":""}" data-act="fcat" data-arg="${c}">${c}</button>`).join("")}</div>
